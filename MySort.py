@@ -76,7 +76,6 @@ class Insertion_Sort(Sort):
 # 希尔排序
 class Shell_Sort(Sort):
     def ShellSort(self):
-        a = self.lis
         increment = self.size
         while increment>1:
             increment = int(increment/3)
