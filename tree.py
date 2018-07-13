@@ -66,7 +66,7 @@ class BinaryTree:
 
     # 非递归后序遍历
     # 只有当左子树和右子树都被访问了，才能访问根节点
-    # 当当前根节点右子树和pos相等时，说明已经可以访问该根节点了
+    # 当当前根节点右子树和per相等时，说明已经可以访问该根节点了
     # https://blog.csdn.net/qq_33951180/article/details/52687692
     def postOrder1(self):
         if self.root == None:
