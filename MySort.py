@@ -289,6 +289,44 @@ class Quick_Sort(Sort):
             self.lis[high] = self.lis[low]  # 采用替换而不是交换
         self.lis[low] = temp
         return low
+    
+    # 这里是优化当list里面有重复数字的情况，当list里面有重复数字，且是pivotkey的时候，
+    # 首先将于pivotkey相等的值移动到两边，然后再将两边与pivotkey相等的值移动在pivotkey附近
+    # 最后返回两个变量，分别用于接下来的递归
+    # https://blog.csdn.net/hacker00011000/article/details/52176100
+    def Partition_improve_2(lis,low,high):
+        temp = lis[low]
+        left,right = low,high
+        first,last = low,high
+        while low < high:
+            while low < high and lis[high] >= temp:
+                if lis[high] == temp:
+                    lis[high],lis[right] = lis[right],lis[high]
+                    right -= 1
+                high -= 1
+            lis[low] = lis[high]
+            while low < high and lis[low] <= temp:
+                if lis[low] == temp:
+                    lis[low], lis[left] = lis[left], lis[low]
+                    left += 1
+                low += 1
+            lis[high] = lis[low]
+        lis[low] = temp
+        # 上面添加的部分，使与中心轴相等的值位于两边
+        # 接下来会让两边的值移动到中心轴两边
+        # 交换左边
+        i = low - 1
+        while first < left:
+            lis[i], lis[first] = lis[first], lis[i]
+            first += 1
+            i -= 1
+        # 交换右边
+        j = low + 1
+        while last > right:
+            lis[j], lis[last] = lis[last], lis[j]
+            last -= 1
+            j += 1
+        return i, j
 
     def InsertionSort(self, left, right):
         for i in range(left + 1, right + 1):
