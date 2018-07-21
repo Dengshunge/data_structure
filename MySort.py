@@ -316,13 +316,13 @@ class Quick_Sort(Sort):
         # 接下来会让两边的值移动到中心轴两边
         # 交换左边
         i = low - 1
-        while first < left:
+        while first < left and lis[i] != temp:
             lis[i], lis[first] = lis[first], lis[i]
             first += 1
             i -= 1
         # 交换右边
         j = low + 1
-        while last > right:
+        while last > right and lis[j] != temp:
             lis[j], lis[last] = lis[last], lis[j]
             last -= 1
             j += 1
