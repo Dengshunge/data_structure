@@ -262,10 +262,18 @@ class Quick_Sort(Sort):
             # 采用尾递归，减少堆栈的深度
             while low < high:
                 pivot = self.Partition_improve(low, high)
-                self.QSort_improve(low, pivot -1)
+                self.QSort_improve(low, pivot - 1)
                 low = pivot + 1  # 把之前的if换为while，利用了low
         else:
             self.InsertionSort(low, high)
+
+    def QSort_improve_2(self,low,high):
+        if low < high:
+            pivot = self.Partition_improve_2(low,high)
+            if low < pivot[0]:
+                self.Partition_improve_2(low,pivot[0])
+            if high > pivot[1]:
+                self.Partition_improve_2(pivot[1],high)
 
     def Partition_improve(self, low, high):
         # 对pivotkey进行三数取中，将中间值放在self.lis[low]
@@ -289,25 +297,25 @@ class Quick_Sort(Sort):
             self.lis[high] = self.lis[low]  # 采用替换而不是交换
         self.lis[low] = temp
         return low
-    
+
     # 这里是优化当list里面有重复数字的情况，当list里面有重复数字，且是pivotkey的时候，
     # 首先将于pivotkey相等的值移动到两边，然后再将两边与pivotkey相等的值移动在pivotkey附近
     # 最后返回两个变量，分别用于接下来的递归
     # https://blog.csdn.net/hacker00011000/article/details/52176100
-    def Partition_improve_2(lis,low,high):
-        temp = lis[low]
-        left,right = low,high
-        first,last = low,high
+    def Partition_improve_2(self, low, high):
+        temp = self.lis[low]
+        left, right = low, high
+        first, last = low, high
         while low < high:
-            while low < high and lis[high] >= temp:
-                if lis[high] == temp:
-                    lis[high],lis[right] = lis[right],lis[high]
+            while low < high and self.lis[high] >= temp:
+                if self.lis[high] == temp:
+                    self.lis[high], self.lis[right] = self.lis[right], self.lis[high]
                     right -= 1
                 high -= 1
-            lis[low] = lis[high]
-            while low < high and lis[low] <= temp:
-                if lis[low] == temp:
-                    lis[low], lis[left] = lis[left], lis[low]
+            self.lis[low] = self.lis[high]
+            while low < high and self.lis[low] <= temp:
+                if self.lis[low] == temp:
+                    self.lis[low], self.lis[left] = self.lis[left], self.lis[low]
                     left += 1
                 low += 1
             lis[high] = lis[low]
@@ -316,17 +324,17 @@ class Quick_Sort(Sort):
         # 接下来会让两边的值移动到中心轴两边
         # 交换左边
         i = low - 1
-        while first < left and lis[i] != temp:
-            lis[i], lis[first] = lis[first], lis[i]
+        while first < left and self.lis[i] != temp:
+            self.lis[i], self.lis[first] = self.lis[first], self.lis[i]
             first += 1
             i -= 1
         # 交换右边
         j = low + 1
-        while last > right and lis[j] != temp:
-            lis[j], lis[last] = lis[last], lis[j]
+        while last > right and self.lis[j] != temp:
+            self.lis[j], self.lis[last] = self.lis[last], self.lis[j]
             last -= 1
             j += 1
-        return i, j
+        return [i, j]
 
     def InsertionSort(self, left, right):
         for i in range(left + 1, right + 1):
